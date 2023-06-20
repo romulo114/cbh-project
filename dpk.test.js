@@ -12,4 +12,10 @@ describe("deterministicPartitionKey", () => {
     const output = deterministicPartitionKey(input);
     expect(output).toBe("test-key");
   });
+
+  it("Handles non-string partition keys and converts them to a string", () => {
+    const input = { partitionKey: 1234 };
+    const output = deterministicPartitionKey(input);
+    expect(output).toBe("1234");
+  });
 });
