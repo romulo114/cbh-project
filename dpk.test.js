@@ -29,4 +29,15 @@ describe("deterministicPartitionKey", () => {
     const output = deterministicPartitionKey(input);
     expect(output).toEqual(expectedHash);
   });
+
+  it("Shortens partition keys longer than 256 characters", () => {
+    const longKey = "a".repeat(257);
+    const input = { partitionKey: longKey };
+    const expectedHash = crypto
+      .createHash("sha3-512")
+      .update(longKey)
+      .digest("hex");
+    const output = deterministicPartitionKey(input);
+    expect(output).toEqual(expectedHash);
+  });
 });
