@@ -18,4 +18,15 @@ describe("deterministicPartitionKey", () => {
     const output = deterministicPartitionKey(input);
     expect(output).toBe("1234");
   });
+
+  it("Generates a crypto hash for objects without a partitionKey property", () => {
+    const input = { data: "test-data" };
+    const dataString = JSON.stringify(input);
+    const expectedHash = crypto
+      .createHash("sha3-512")
+      .update(dataString)
+      .digest("hex");
+    const output = deterministicPartitionKey(input);
+    expect(output).toEqual(expectedHash);
+  });
 });
